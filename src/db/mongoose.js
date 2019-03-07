@@ -4,7 +4,7 @@
 
 const mongoose = require('mongoose');
 const dbName = 'task-manager-api';
-const dbURL = 'mongodb+srv://nsingh:<password>@clusternodejs-vjvrw.mongodb.net/'+dbName+'?retryWrites=true';
+const dbURL = 'mongodb+srv://nsingh:<password>@mongodb.net/'+dbName+'?retryWrites=true';
 
 
 
