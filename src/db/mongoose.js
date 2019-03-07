@@ -1,11 +1,9 @@
 /**
  * http://usejsdoc.org/
  */
-
+const dbConfigReader = require('./dbConfigReader.js');
 const mongoose = require('mongoose');
-const dbName = 'task-manager-api';
-const dbURL = 'mongodb+srv://nsingh:<password>@mongodb.net/'+dbName+'?retryWrites=true';
-
+const dbURL = dbConfigReader.loadConfig();
 
 
 	mongoose.connect(dbURL, {useNewUrlParser : true},{useCreateIndex:true});

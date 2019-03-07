@@ -4,3 +4,4 @@ node_modules/
 .project
 .sublime-project
 .tern-project
+config/db.json
