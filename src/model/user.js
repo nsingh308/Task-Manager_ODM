@@ -14,6 +14,15 @@ const userSchema = new Schema({
 			type: 'String',
 			required:true
 			},
+		email:{
+				type:'String',
+				required:true,
+				validate(value){
+					if(!validator.isEmail(value)){
+						throw new Error('Provide valid email address');
+					}
+				}
+		},
 		password:{
 			type:'String',
 			default:'@Hoom2012',

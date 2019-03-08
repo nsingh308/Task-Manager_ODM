@@ -14,18 +14,9 @@ var taskSchema = new Schema({
 					throw new Error('Only Adults should be added. Age > 18 allowed.');
 				}
 			}
-		},
-		email:{
-			type:'String',
-			validate(value){
-				if(!validator.isEmail(value)){
-					throw new Error('Provide valid email address');
-				}
-			}
 		}
+		
 });
 var Task = mongoose.model('Task',taskSchema);
 	
-module.exports ={ 
-		Task
-		};
+module.exports ={ Task };
