@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const Schema = mongoose.Schema;
 
-const taskSchema = new Schema({
+var taskSchema = new Schema({
 		name:{
 			type: 'String',
 			required:true
@@ -24,6 +24,8 @@ const taskSchema = new Schema({
 			}
 		}
 });
-const TaskModel = mongoose.model('Task',taskSchema);
+var Task = mongoose.model('Task',taskSchema);
 	
-module.exports = TaskModel;
+module.exports ={ 
+		Task
+		};
