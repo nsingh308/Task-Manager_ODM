@@ -2,7 +2,7 @@
  * http://usejsdoc.org/
  */
 const express = require('express');
-require('./db/mongoose.js');
+require('./db/mongoose_init.js');
 
 const UserModel = require('./model/user.js');
 const TaskModel = require('./model/task.js');
