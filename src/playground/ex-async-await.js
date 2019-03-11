@@ -7,27 +7,28 @@ mongoose.connect(dbURL, {useNewUrlParser : true,
 						useFindAndModify:false});
 
 
-const UserModel = require('../model/user.js');
+//const UserModel = require('../model/user.js');
+//var updateAndCount = async(id,email)=>{
+//		const user = await(UserModel.User.findByIdAndUpdate(id,{email}));
+//		const count = await(UserModel.User.countDocuments({email}));
+//		return count;
+//}
+//updateAndCount("5c842deaaebfb5cff40927dc","donky@gmail.com").then((result)=>{
+//	return console.log(result);
+//}).catch((error)=>{
+//	return console.log(error)
+//});
 
-//UserModel.User.findByIdAndUpdate("5c827abe2332513a9832342b", {email:"dummyEmail@gmail.com"})
-//.then((user)=>{
-//	console.log("updated"+user);
-//	return UserModel.User.countDocuments({email:"dummyEmail@gmail.com"})
-//}).then((userCount)=>{
-//	console.log(userCount);
-//}).catch((e)=>{
-//	console.log("Failed to update");
-//})
 
+const TaskModel = require('../model/task.js');
 
-var updateAndCount = async(id,email)=>{
-		var user = await(UserModel.User.findByIdAndUpdate(id,{email}));
-		var count = await(UserModel.User.countDocuments({email}));
-		return count;
+var deleteAndCount = async(id,duration)=>{
+	await(TaskModel.Task.findByIdAndDelete(id));
+	const count = await(TaskModel.Task.countDocuments({duration}));
+	return count;
 }
 
-
-updateAndCount("5c842deaaebfb5cff40927dc","donky@gmail.com").then((result)=>{
+deleteAndCount("5c843315d021755e040d5ab2",51).then((result)=>{
 	return console.log(result);
 }).catch((error)=>{
 	return console.log(error)
