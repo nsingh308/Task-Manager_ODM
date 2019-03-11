@@ -13,6 +13,11 @@ const tasksRouter = require('./routers/tasks.js');
 const app = express();
 const port = 3000;
 
+//Middle ware function between req,res => middleware => router
+app.use((req,res,next)=>{
+	res.status(503).send('Service is in Maintenance Mode. ');
+})
+
 app.use(express.json());
 app.use(usersRouter);
 app.use(tasksRouter);

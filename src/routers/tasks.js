@@ -53,7 +53,18 @@ router.patch('/tasks/:id', async(req, res)=>{
 		return res.status(400).send('{"error":"Invalid Updates"}');
 	}
 	try{
-		const task = await(TaskModel.Task.findByIdAndUpdate(req.params.id,req.body,{new:true, runValidators:true}));
+		const task  = await(TaskModel.Task.findById(req.params.id));
+		
+		updates.forEach((key)=>{
+			task[key]= req.body[key];//will assign the value of req.body[key] to task 
+		})
+		
+		await task.save();
+		
+		//below call could not attach a middleware because its a direct call with mongodb.
+		//const task = await(TaskModel.Task.findByIdAndUpdate(req.params.id,req.body,{new:true, runValidators:true}));
+		
+		
 		if(!task){
 			res.status(404).send();
 		}
