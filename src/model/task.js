@@ -23,16 +23,6 @@ var taskSchema = new Schema({
 		
 });
 
-//MiddleWare , arrow functions don not have binding property, hence here to bind a function to
-//middleware save we have to use function normally.
-taskSchema.pre('save',async function(next){
-	
-	console.log('Before Save called for Task');
-	next()
-	  
-});
-
-
 var Task = mongoose.model('Task',taskSchema);
 	
 module.exports ={ Task };

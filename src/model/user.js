@@ -53,7 +53,6 @@ const userSchema = new Schema({
 userSchema.methods.generateAuthToken = async function(){
 	const user = this;
 	const generatedToken = jwt.sign({_id:user._id.toString()},'thisismysecretKey');
-	console.log(generatedToken);
 	user.tokens = user.tokens.concat({
 		token:generatedToken
 	});
@@ -70,7 +69,6 @@ userSchema.statics.findByCredentials = async(email, password)=>{
 	}
 	const isMatch = await bcrypt.compare(password,user.password);
 	if(!isMatch){
-		console.log('not a match');
 		throw new Error('Unable to login');
 	}
 	return user;
