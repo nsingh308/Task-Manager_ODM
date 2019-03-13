@@ -7,8 +7,6 @@ const jwt = require('jsonwebtoken');
 const UserModel = require('../model/user.js');
 
 
-
-
 /**
  * validate login auth tokens
  */

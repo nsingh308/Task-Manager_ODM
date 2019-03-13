@@ -81,7 +81,7 @@ router.get('/users/me',auth,async(req, res)=>{
 //	}
 //})
 
-router.patch('/users/:id',auth, async(req, res)=>{
+router.patch('/users/me',auth, async(req, res)=>{
 	const allowedUpdates = ['name','email','password'];
 	const updates = Object.keys(req.body);
 	
@@ -93,22 +93,19 @@ router.patch('/users/:id',auth, async(req, res)=>{
 	}
 	try{
 		
-		const user = await UserModel.User.findById(req.params.id);
+		//const user = await UserModel.User.findById(req.params.id);
 		updates.forEach((update)=>{
-			user[update] = req.body[update];
+			req.user[update] = req.body[update];
 		})
-		
-		await user.save();
+		console.log('user read to save',req.user);
+		await req.user.save();
 		
 		//Below call is a direct call with mongodb method. its by passing mongoose middleware.
 		//const user = await (UserModel.User.findByIdAndUpdate(req.params.id,req.body,{ new:true, runValidators:true }));
 		
-		if(!user){
-			res.status(404).send();
-		}
-		res.send(user);
+		res.status(200).send(req.user);
 	}catch(error){
-		res.send(400).send(error);
+		res.status(400).send(error);
 	}
 });
 
