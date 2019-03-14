@@ -2,7 +2,6 @@
  * http://usejsdoc.org/
  */
 
-
 const express = require('express');
 const UserModel = require('../model/user.js');
 const auth = require('../middleware/auth');

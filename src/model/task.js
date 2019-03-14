@@ -15,8 +15,8 @@ var taskSchema = new Schema({
 		duration:{
 			type:'Number',
 			validate(value){
-				if(value<18){
-					throw new Error('Only Adults should be added. Age > 18 allowed.');
+				if(value<0){
+					throw new Error('duration of task can not be less than 0');
 				}
 			}
 		},
@@ -27,6 +27,8 @@ var taskSchema = new Schema({
 			
 		}
 		
+},{
+	timestamps:true
 });
 
 var Task = mongoose.model('Task',taskSchema);
