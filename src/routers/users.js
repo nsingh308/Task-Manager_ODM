@@ -63,7 +63,10 @@ router.post('/users',async(req,res)=>{
 })
 
 router.get('/users/me',auth,async(req, res)=>{
-		res.send(req.user);
+	//await req.user.populate('tasks').execPopulate();
+	//console.log(req.user.tasks);
+	res.send(req.user);
+		
 })
 //
 //router.get('/users/:id',async(req, res)=>{
@@ -97,7 +100,6 @@ router.patch('/users/me',auth, async(req, res)=>{
 		updates.forEach((update)=>{
 			req.user[update] = req.body[update];
 		})
-		console.log('user read to save',req.user);
 		await req.user.save();
 		
 		//Below call is a direct call with mongodb method. its by passing mongoose middleware.

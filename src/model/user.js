@@ -3,6 +3,7 @@ const validator = require('validator');
 const passwordValidator = require('password-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const TaskModel = require('../model/task');
 const pValidation = new passwordValidator();
 
 pValidation.is().min(8).is().max(100).has().uppercase().has().lowercase()
@@ -50,6 +51,14 @@ const userSchema = new Schema({
 			}
 		}]
 });
+
+userSchema.virtual('tasks',{
+	ref: 'Task',
+	localField : '_id',
+	foreignField:'owner'
+	
+})
+
 userSchema.methods.generateAuthToken = async function(){
 	const user = this;
 	const generatedToken = jwt.sign({_id:user._id.toString()},'thisismysecretKey');
@@ -72,7 +81,6 @@ userSchema.methods.toJSON= function(){
 	return userObject;
 }
 userSchema.statics.findByCredentials = async(email, password)=>{
-	console.log('entered.')
 	const user = await User.findOne({email});
 	if(!user){
 		throw new Error('Unable to login');
@@ -81,20 +89,26 @@ userSchema.statics.findByCredentials = async(email, password)=>{
 	if(!isMatch){
 		throw new Error('Unable to login');
 	}
-	console.log(user)
 	return user;
 }
 
 //MiddleWare , arrow functions don not have binding property, hence here to bind a function to
 // middleware save we have to use function normally.
 userSchema.pre('save',async function(next){
-	if(this.isModified('password')){
-		this.password = await bcrypt.hash(this.password,8);
+	const user = this;
+	if(user.isModified('password')){
+		user.password = await bcrypt.hash(user.password,8);
 	}
 	next()
 	  
 });
 
+//Middleware, to execute on removal of user, tasks should also be removed.
+userSchema.pre('remove', async function(next){
+	const user = this;
+	await TaskModel.Task.deleteMany({owner:user._id});
+	next()
+})
 
 
 const User = mongoose.model('User',userSchema);

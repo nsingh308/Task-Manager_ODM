@@ -19,6 +19,12 @@ var taskSchema = new Schema({
 					throw new Error('Only Adults should be added. Age > 18 allowed.');
 				}
 			}
+		},
+		owner:{
+			type:mongoose.Schema.Types.ObjectId,
+			required:true,
+			ref:'User'
+			
 		}
 		
 });
