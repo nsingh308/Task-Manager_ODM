@@ -5,3 +5,4 @@ node_modules/
 .sublime-project
 .tern-project
 config/db.json
+.vscode

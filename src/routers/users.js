@@ -3,7 +3,7 @@
  */
 
 const express = require('express');
-const UserModel = require('../model/user.js');
+const UserModel = require('../model/user');
 const auth = require('../middleware/auth');
 
 const router = new express.Router();
