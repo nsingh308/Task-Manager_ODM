@@ -1,11 +1,18 @@
 const request = require('supertest')
 const app = require('../src/app');
 const {User} = require('../src/model/user')
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose')
 
+const  userOneId = new mongoose.Types.ObjectId()
 const userOne ={
+    _id:userOneId,
     name:"Login User",
     email:"login.user@gmail.com",
-    password: "userLogin@2030"
+    password: "userLogin@2030",
+    tokens : [{
+        token: jwt.sign({_id:userOneId},process.env.TASKMANAGER_JWT_SECRET)
+    }]
 }
 
 beforeEach(async ()=>{
@@ -44,3 +51,32 @@ test('Should not login with wrong credentials', async()=>{
     }).expect(400);
 })
 
+test('Should get profile details for user',async()=>{
+    await request(app).get('/users/me')
+                .set(
+                  `Authorization`,`Bearer ${userOne.tokens[0].token}`      
+                )
+                .send()
+                .expect(200);
+})
+
+test('Should not get profile with unauthorized user', async()=>{
+    await request(app).get('/users/me')
+                  .send()
+                  .expect(401);
+})
+
+test('Should delete the authorized user', async()=>{
+    await request(app).delete('/users/me')
+                .set(
+                    'Authorization',`Bearer ${userOne.tokens[0].token}`
+                )
+                .send()
+                .expect(200);
+})
+
+test('Should not delete the unauthorized user', async()=>{
+    await request(app).delete('/users/me')
+                .send()
+                .expect(401);
+})

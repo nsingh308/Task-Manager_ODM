@@ -64,7 +64,7 @@ userSchema.virtual('tasks',{
 
 userSchema.methods.generateAuthToken = async function(){
 	const user = this;
-	const generatedToken = jwt.sign({_id:user._id.toString()},'thisismysecretKey');
+	const generatedToken = jwt.sign({_id:user._id.toString()},process.env.TASKMANAGER_JWT_SECRET);
 	user.tokens = user.tokens.concat({
 		token:generatedToken
 	});
@@ -83,6 +83,8 @@ userSchema.methods.toJSON= function(){
 	
 	return userObject;
 }
+
+
 userSchema.statics.findByCredentials = async(email, password)=>{
 	const user = await User.findOne({email});
 	if(!user){

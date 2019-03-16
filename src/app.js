@@ -2,6 +2,7 @@
  * http://usejsdoc.org/
  */
 //Initialize the mongoose.
+require('dotenv').config()
 require('./db/mongoose_init');
 
 const express = require('express');

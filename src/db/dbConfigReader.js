@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const configDirectoryPath = path.join(__dirname,'../../config/db-local.json')
+const configDirectoryPath = path.join(__dirname,'../../config/'+process.env.DB_ENV+'-db.json')
 
 var loadConfig = ()=>{
 	const dbConfig = fs.readFileSync(configDirectoryPath);

@@ -25,6 +25,7 @@
     "@sendgrid/mail": "^6.3.1",
     "bcrypt": "^3.0.4",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^7.0.0",
     "env-cmd": "^8.0.2",
     "express": "^4.16.4",
     "jest": "^24.5.0",

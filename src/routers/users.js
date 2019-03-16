@@ -3,7 +3,7 @@
  */
 
 const express = require('express');
-const UserModel = require('../model/user');
+const {User} = require('../model/user');
 const auth = require('../middleware/auth');
 
 const router = new express.Router();
@@ -12,7 +12,7 @@ router.post('/users/login',async(req,res)=>{
 	
 	try{
 		//calling our own static defined method.
-	 const user = await UserModel.User.findByCredentials(req.body.email,req.body.password);
+	 const user = await User.findByCredentials(req.body.email,req.body.password);
 	 const token = await user.generateAuthToken();
 	 
 	 res.send({user,token});
@@ -51,7 +51,7 @@ router.post('/users/logoutAll',auth, async(req,res)=>{
 })
 
 router.post('/users',async(req,res)=>{
-	const user = new UserModel.User(req.body);
+	const user = new User(req.body);
 	try{
 	  await user.save();
 	  const token = await user.generateAuthToken();
@@ -73,7 +73,7 @@ router.get('/users/me',auth,async(req, res)=>{
 //	
 //	try{
 //	
-//		const user = await(UserModel.User.findById(_id));
+//		const user = await(User.findById(_id));
 //		if(!user){
 //			return res.status(404).send();
 //		}
@@ -95,14 +95,14 @@ router.patch('/users/me',auth, async(req, res)=>{
 	}
 	try{
 		
-		//const user = await UserModel.User.findById(req.params.id);
+		//const user = await User.findById(req.params.id);
 		updates.forEach((update)=>{
 			req.user[update] = req.body[update];
 		})
 		await req.user.save();
 		
 		//Below call is a direct call with mongodb method. its by passing mongoose middleware.
-		//const user = await (UserModel.User.findByIdAndUpdate(req.params.id,req.body,{ new:true, runValidators:true }));
+		//const user = await (User.findByIdAndUpdate(req.params.id,req.body,{ new:true, runValidators:true }));
 		
 		res.status(200).send(req.user);
 	}catch(error){
@@ -113,7 +113,7 @@ router.patch('/users/me',auth, async(req, res)=>{
 router.delete('/users/me',auth,async(req,res)=>{
 	
 	try{
-//		const user = await( UserModel.User.findByIdAndDelete(req.params.id));
+//		const user = await( User.findByIdAndDelete(req.params.id));
 //		
 //		if(!user){
 //			res.status(404).send('"error":"Invalid Delete"');

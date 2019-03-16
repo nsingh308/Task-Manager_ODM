@@ -2,14 +2,14 @@
  * http://usejsdoc.org/
  */
 const express = require('express');
-const TaskModel = require('../model/task');
+const {Task} = require('../model/task');
 const auth = require('../middleware/auth');
 
 const router = new express.Router();
 
 
 router.post('/tasks',auth, async(req,res)=>{
-	const task = new TaskModel.Task({
+	const task = new Task({
 		...req.body,
 		owner : req.user._id
 		});
@@ -38,7 +38,7 @@ router.get('/tasks', auth, async(req, res)=>{
 		match.completed = req.query.completed =='true';
 	}
 	try{
-		//const tasks = await (TaskModel.Task.find({owner: req.user._id}));
+		//const tasks = await (Task.find({owner: req.user._id}));
 		//await req.user.populate('tasks').execPopulate();
 		await req.user.populate({
 			path:'tasks',
@@ -59,7 +59,7 @@ router.get('/tasks/:id',auth, async(req, res)=>{
 	const _id = req.params.id;
 	
 	try{
-		const task = await(TaskModel.Task.findById({_id,owner:req.user._id}));
+		const task = await(Task.findById({_id,owner:req.user._id}));
 		if(!task){
 			return res.status(404).send();
 		}
@@ -81,8 +81,8 @@ router.patch('/tasks/:id',auth, async(req, res)=>{
 		return res.status(400).send('{"error":"Invalid Updates"}');
 	}
 	try{
-		const task  = await(TaskModel.Task.findOne({_id:req.params.id,owner:req.user._id}));
-		//const task  = await(TaskModel.Task.findById(req.params.id));
+		const task  = await(Task.findOne({_id:req.params.id,owner:req.user._id}));
+		//const task  = await(Task.findById(req.params.id));
 		
 		if(!task){
 			res.status(404).send();
@@ -96,7 +96,7 @@ router.patch('/tasks/:id',auth, async(req, res)=>{
 		await task.save();
 		
 		//below call could not attach a middleware because its a direct call with mongodb.
-		//const task = await(TaskModel.Task.findByIdAndUpdate(req.params.id,req.body,{new:true, runValidators:true}));
+		//const task = await(Task.findByIdAndUpdate(req.params.id,req.body,{new:true, runValidators:true}));
 		
 		res.send(task);
 	}catch(error){
@@ -109,7 +109,7 @@ router.patch('/tasks/:id',auth, async(req, res)=>{
 router.delete('/tasks/:id',auth,async(req,res)=>{
 	
 	try{
-		const task = await( TaskModel.Task.findOneAndDelete({_id:req.params.id,owner:req.user._id}));
+		const task = await( Task.findOneAndDelete({_id:req.params.id,owner:req.user._id}));
 		
 		if(!task){
 			res.status(404).send('"error":"Invalid Delete"');

@@ -4,7 +4,7 @@
  * This is express middle ware function
  */
 const jwt = require('jsonwebtoken');
-const UserModel = require('../model/user.js');
+const {User} = require('../model/user');
 
 
 /**
@@ -16,7 +16,7 @@ const auth = async(req,res,next)=>{
 		const token = req.header("Authorization").replace('Bearer ','');
 		
 		const decoded = jwt.verify(token,'thisismysecretKey');
-		const user = await UserModel.User.findOne({_id:decoded._id,'tokens.token':token});
+		const user = await User.findOne({_id:decoded._id,'tokens.token':token});
 		if(!user){
 			throw new Error();
 		}
