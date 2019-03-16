@@ -1,4 +1,4 @@
-const {calculateAdd,calculateMinus,calculateTip} = require('../src/playground/math');
+const {calculateAdd,calculateMinus,calculateTip} = require('./math');
 
 
 test('validate add',()=>{
